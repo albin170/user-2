@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Events - Premium Planner</title>
+    <title>Aura Events - Vendor Marketplace</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a1a1a;
             --accent: #d4af37;
-            --bg: #f9f9f9;
+            --bg: #f4f6f8;
             --card-bg: #ffffff;
             --text: #333333;
             --success: #2e7d32;
@@ -17,126 +17,113 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--primary); }
         
-        /* Navbar & Gamification */
         header { background: var(--card-bg); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;}
         .brand { font-size: 1.5rem; font-weight: bold; color: var(--accent); font-family: 'Playfair Display', serif;}
-        .user-status { display: flex; align-items: center; gap: 15px; font-size: 0.9rem; }
-        .points { background: var(--accent); color: white; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
-        select { padding: 8px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
-
-        /* Container */
+        
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
         .card { background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 2rem; border-top: 3px solid var(--accent); }
         
-        /* Grids */
+        /* Layout Grids */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
         
-        /* Inputs */
         .form-group { margin-bottom: 1.5rem; }
-        label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
-        input[type="number"], select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; color: #555;}
+        input[type="number"], select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-family: 'Inter', sans-serif; background: #fff;}
+        select:focus, input:focus { outline: none; border-color: var(--accent); }
         
-        /* Dashboard & Gamification Badge */
+        /* Dashboard */
         .dashboard { background: var(--primary); color: white; padding: 2rem; border-radius: 12px; text-align: center; }
         .dashboard h2 { color: white; margin-top: 0; }
         .badge { display: none; background: var(--success); color: white; padding: 10px; border-radius: 8px; margin-top: 15px; font-weight: bold; animation: popIn 0.5s ease; }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-        /* Team Cards */
-        .team-card { border: 1px solid #eee; border-radius: 10px; overflow: hidden; text-align: center; background: var(--card-bg); }
-        .team-card img { width: 100%; height: 200px; object-fit: cover; }
-        .team-info { padding: 1.5rem; }
-        .team-info h3 { margin: 0 0 5px 0; font-size: 1.2rem; }
-        .role { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
-        .stats { display: flex; justify-content: space-around; font-size: 0.8rem; color: #666; border-top: 1px solid #eee; padding-top: 10px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="brand">AURA EVENTS</div>
-        <div class="user-status">
-            <span class="points">🏆 150 Reward Points</span>
+        <div>
             <select id="currency" onchange="calculate()">
                 <option value="1">INR (₹)</option>
                 <option value="0.012">USD ($)</option>
-                <option value="0.011">EUR (€)</option>
-                <option value="0.044">AED (د.إ)</option>
             </select>
-            <select id="language">
-                <option>English</option>
-                <option>Hindi</option>
-                <option>Malayalam</option>
-                <option>Arabic</option>
-            </select>
-            <button style="padding: 8px 15px; background: var(--primary); color: white; border: none; border-radius: 5px;">Dashboard Login</button>
         </div>
     </header>
 
     <div class="container">
         
         <div class="card">
-            <h2>1. Smart Event Configurator</h2>
+            <h2>1. Event Baseline</h2>
             <div class="grid-2">
                 <div class="form-group">
-                    <label>Event Category</label>
-                    <select>
-                        <option>Wedding & Engagement</option>
-                        <option>Corporate Gala</option>
-                        <option>Cultural Program</option>
-                        <option>Destination Event</option>
-                        <option>College Fest</option>
-                    </select>
+                    <label>Total Budget Limit (Base INR)</label>
+                    <input type="number" id="budget" value="800000" oninput="calculate()">
                 </div>
                 <div class="form-group">
-                    <label>Total Budget Limit (Base INR)</label>
-                    <input type="number" id="budget" value="500000" oninput="calculate()">
+                    <label>Estimated Guests</label>
+                    <input type="number" id="guests" value="250" oninput="calculate()">
                 </div>
             </div>
         </div>
 
         <div class="grid-2">
             <div class="card">
-                <h2>2. Build Your Package</h2>
+                <h2>2. Vendor Selection</h2>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 1.5rem;">Choose your preferred vendor teams and artists. Catering is calculated per guest, while performers charge a flat booking fee.</p>
                 
                 <div class="form-group">
-                    <label>Estimated Guests</label>
-                    <input type="number" id="guests" value="200" oninput="calculate()">
-                </div>
-
-                <div class="form-group">
-                    <label>Catering Options (Per Plate)</label>
-                    <select id="food" onchange="calculate()">
+                    <label>Catering Group (Cost Per Plate)</label>
+                    <select id="caterer" onchange="calculate()">
                         <option value="0">Skip Catering</option>
-                        <option value="800">Standard Veg Indian (₹800/pp)</option>
-                        <option value="1500">Premium Multi-Cuisine (₹1,500/pp)</option>
-                        <option value="2500">Luxury Arabic/Continental (₹2,500/pp)</option>
+                        <option value="900">The Spice Route Caterers (₹900/pp)</option>
+                        <option value="1600">Royal Feast Dining Group (₹1,600/pp)</option>
+                        <option value="2800">Global Fusion Luxury Catering (₹2,800/pp)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Photography & Video</label>
-                    <select id="photo" onchange="calculate()">
-                        <option value="0">Skip Media</option>
-                        <option value="50000">Standard Package (₹50,000)</option>
-                        <option value="150000">4K Cinematic + Drone (₹1,50,000)</option>
+                    <label>Makeup Artist / Beautician</label>
+                    <select id="makeup" onchange="calculate()">
+                        <option value="0">Skip Makeup</option>
+                        <option value="15000">Glow Studio - Standard Bridal (₹15,000)</option>
+                        <option value="45000">Glam by Sarah - Premium (₹45,000)</option>
+                        <option value="100000">Celebrity MUA Team (₹1,00,000)</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Entertainment</label>
-                    <select id="music" onchange="calculate()">
-                        <option value="0">No Entertainment</option>
-                        <option value="25000">Professional DJ (₹25,000)</option>
-                        <option value="80000">Live Classical Troupe/Band (₹80,000)</option>
+                    <label>DJ Performer</label>
+                    <select id="dj" onchange="calculate()">
+                        <option value="0">No DJ</option>
+                        <option value="25000">DJ Groove - Bollywood & Retro (₹25,000)</option>
+                        <option value="60000">DJ Sonic - EDM Nightclub Vibe (₹60,000)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Event Anchor / MC</label>
+                    <select id="anchor" onchange="calculate()">
+                        <option value="0">No Anchor</option>
+                        <option value="15000">Rahul T. - Formal & Corporate (₹15,000)</option>
+                        <option value="35000">Priya S. - Energetic & Interactive (₹35,000)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Stage Performers / Entertainment</label>
+                    <select id="performer" onchange="calculate()">
+                        <option value="0">No Stage Performers</option>
+                        <option value="40000">Cultural Dance Troupe (₹40,000)</option>
+                        <option value="85000">Symphony Live Acoustic Band (₹85,000)</option>
+                        <option value="120000">Fire & LED Illusion Show (₹1,20,000)</option>
                     </select>
                 </div>
             </div>
 
             <div class="dashboard">
                 <h2>Real-Time Budget</h2>
-                <div style="font-size: 1.2rem; margin-bottom: 10px; color: #aaa;">Total Estimated Cost</div>
+                <div style="font-size: 1.1rem; margin-bottom: 10px; color: #aaa;">Total Estimated Cost</div>
                 <h1 id="totalCost" style="color: var(--accent); font-size: 3rem; margin: 0;">₹0</h1>
                 
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #333;">
@@ -145,86 +132,43 @@
                 </div>
 
                 <div id="badge" class="badge">
-                    🌟 Smart Planner Badge Unlocked! You are under budget! (+50 Points)
+                    🌟 Budget Managed Perfectly! (+50 Points)
                 </div>
             </div>
         </div>
-
-        <div class="card">
-            <h2>3. Meet Your Experts</h2>
-            <div class="grid-3">
-                
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Creative Director">
-                    <div class="team-info">
-                        <h3>Priya Sharma</h3>
-                        <div class="role">Creative Director</div>
-                        <div class="stats">
-                            <span>⭐ 4.9 Rating</span>
-                            <span>12 Yrs Exp</span>
-                            <span>300+ Events</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" alt="Finance">
-                    <div class="team-info">
-                        <h3>Rahul Verma</h3>
-                        <div class="role">Logistics & Finance Head</div>
-                        <div class="stats">
-                            <span>⭐ 4.8 Rating</span>
-                            <span>8 Yrs Exp</span>
-                            <span>150+ Events</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="team-card">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" alt="3D Designer">
-                    <div class="team-info">
-                        <h3>Ananya Patel</h3>
-                        <div class="role">3D Experience Designer</div>
-                        <div class="stats">
-                            <span>⭐ 5.0 Rating</span>
-                            <span>5 Yrs Exp</span>
-                            <span>90+ Events</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
     </div>
 
     <script>
         function calculate() {
-            // Get base values (INR)
+            // Get Baseline variables
             let limit = parseFloat(document.getElementById('budget').value) || 0;
             let guests = parseFloat(document.getElementById('guests').value) || 1;
-            let foodPerPlate = parseFloat(document.getElementById('food').value) || 0;
-            let photo = parseFloat(document.getElementById('photo').value) || 0;
-            let music = parseFloat(document.getElementById('music').value) || 0;
+            
+            // Get Vendor Fees
+            let catererPerPlate = parseFloat(document.getElementById('caterer').value) || 0;
+            let makeupFee = parseFloat(document.getElementById('makeup').value) || 0;
+            let djFee = parseFloat(document.getElementById('dj').value) || 0;
+            let anchorFee = parseFloat(document.getElementById('anchor').value) || 0;
+            let performerFee = parseFloat(document.getElementById('performer').value) || 0;
 
-            // Calculate Base INR totals
-            let foodTotal = guests * foodPerPlate;
-            let totalSpentBase = foodTotal + photo + music;
+            // Calculations
+            let totalCatering = guests * catererPerPlate;
+            let totalSpentBase = totalCatering + makeupFee + djFee + anchorFee + performerFee;
             let remainingBase = limit - totalSpentBase;
 
-            // Currency logic
+            // Currency formatting
             let rate = parseFloat(document.getElementById('currency').value);
             let symbol = document.getElementById('currency').options[document.getElementById('currency').selectedIndex].text.match(/\((.*)\)/)[1];
 
             let spentConverted = totalSpentBase * rate;
             let remainingConverted = remainingBase * rate;
 
-            // Update UI
+            // Update UI with Indian Numbering System formatting (for commas)
             document.getElementById('totalCost').innerText = symbol + spentConverted.toLocaleString('en-IN', {maximumFractionDigits: 0});
             let remainingEl = document.getElementById('remaining');
             remainingEl.innerText = symbol + remainingConverted.toLocaleString('en-IN', {maximumFractionDigits: 0});
 
-            // Gamification Logic
+            // Gamification Badge Logic
             let badge = document.getElementById('badge');
             if (remainingBase >= 0 && totalSpentBase > 0) {
                 remainingEl.style.color = "var(--success)";
